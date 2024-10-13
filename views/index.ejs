@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <div class="generalMenu">
+        <form action="/menu" method="POST" class="menuSelector">
+            <input type="submit" class="menuOpt" name="menuChoice" value="Random Recipes">
+            <input type="submit" class="menuOpt" name="menuChoice" value="Search Recipes">
+        </form>
+        <% if(CurrentMenu === "Random Recipes"){ %>
+            <div class="random">
+                <div class="RandDishHeader">
+                    <h1><%= RandRecipe.title %></h1>
+                    <div class="RandDishHeaderRight">
+                        <svg xmlns="http://www.w3.org/2000/svg" onclick="ReloadDish()" viewBox="0 0 512 512" class="icon"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M463.5 224l8.5 0c13.3 0 24-10.7 24-24l0-128c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8l119.5 0z"/></svg>
+                    </div>
+                </div>
+                <div class="RandDish">
+                    <div class="RandDishIngredients">
+                        <h2>Ingredients</h2>
+                        <% RandRecipe.extendedIngredients.forEach(ingredient => { %>
+                            <li><%= ingredient.original %></li>
+                            <% }); %>
+                    </div>
+                    
+                    <img src="<%= RandRecipe.image %>">
+                    <div class="RandDishSummary">
+                        <h2>Summary</h2>
+                        <%- RandRecipe.summary %>
+                    </div>
+                    <div class="RandDishInstructions">
+                        <h2>Instructions</h2>
+                        <%- RandRecipe.instructions %>
+                    </div>
+                    
+                    <div class="RandDishInfo">
+                        <h2>Info</h2>
+                        <li>Ready in <%= RandRecipe.readyInMinutes %> minutes</li>
+                        <li><%= RandRecipe.servings %> serving(s)</li>
+                        <li>Price per serving: $0.<%= RandRecipe.pricePerServing %></li>
+                        <li>Vegetarian: <%= RandRecipe.vegetarian %></li>
+                        <li>Vegan: <%= RandRecipe.vegan %></li>
+                        <li>Gluten Free: <%= RandRecipe.glutenFree %></li>
+                        <% if (RandRecipe.cuisines[0]) { %>
+                            <li>Cuisine(s):<% RandRecipe.cuisines.forEach(cuisine => { %>
+                                <%= cuisine %>/
+                            <% }); %></li>
+                        <% } %>
+                        <% if (RandRecipe.dishTypes[0]) { %>
+                            <li>Dish type:<% RandRecipe.dishTypes.forEach(dishType => { %>
+                                <%= dishType %>/
+                            <% }); %></li>
+                        <% } %>
+                    </div>
+                </div>
+
+            </div>
+            <% } else if(CurrentMenu === "Search Recipes"){ %>
+
+                <h1>Search Recipes</h1>
+                <div class="SearchRecipeDiv">
+
+                    <form autocomplete="off" class="autocompForm" method="POST" action="/searchDish">
+                        <div class="autocomplete" id="suggestions" style="width:300px;">
+                          <input type="text" id="dishInput" name="WantedDish" placeholder="Start typing a dish name...">
+                        </div>
+                        <input type="submit" value="Search" style="width:100px; height:40.5px; border: none;">
+                    </form>
+                    
+                    <% if (locals.SearchResults) { %>
+                        <% for(let i = 0; i < SearchResults.length; i++){ %>
+                            <div class="DishResult" id="<%= SearchResults[i].id %>">
+                                <h1><%= SearchResults[i].title %></h1>
+                                <div class="DishResultInfoSummaryImg">
+
+                                    <div class="DishResultInfo">
+                                        
+                                        <h2>Info</h2>
+                                        <li>Ready in <%= DishDetails[i].readyInMinutes %> minutes</li>
+                                        <li><%= DishDetails[i].servings %> serving(s)</li>
+                                        <li>Price per serving: $0.<%= DishDetails[i].pricePerServing %></li>
+                                        <li>Vegetarian: <%= DishDetails[i].vegetarian %></li>
+                                        <li>Vegan: <%= DishDetails[i].vegan %></li>
+                                        <li>Gluten Free: <%= DishDetails[i].glutenFree %></li>
+                                        <% if (DishDetails[i].cuisines[0]) { %>
+                                            <li>Cuisine(s):<% DishDetails[i].cuisines.forEach(cuisine => { %>
+                                                <%= cuisine %>/
+                                            <% }); %></li>
+                                        <% } %>
+                                        <% if (DishDetails[i].dishTypes[0]) { %>
+                                            <li>Dish type:<% DishDetails[i].dishTypes.forEach(dishType => { %>
+                                                <%= dishType %>/
+                                            <% }); %></li>
+                                        <% } %>
+                                    </div>
+
+                                    <div class="DishResultSummary">
+                                        <h2>Summary</h2>
+                                        <%- DishDetails[i].summary %>
+                                    </div>
+
+                                    <img src="<%= DishDetails[i].image %>">
+                                </div>
+
+                            </div>
+                        <% }; %>
+                    <% } else{%>
+                        <h1>Try Searching for a dish!</h1>
+                    <% }; %>
+                </div>
+
+            <% } else{ %>
+                <h1>Something went wrong</h1>
+            <% }; %>
+    </div>
+
+    <script src="/js/frontend.js"></script>
+</body>
+</html>
