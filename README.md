@@ -13,6 +13,7 @@ To run the project:
 - Open your browser and go to http://localhost:3000/
 
 Preview:
+
 <img width="925" alt="Screenshot 2025-04-01 at 11 29 49 AM" src="https://github.com/user-attachments/assets/55b8f14f-14f8-47f9-b43e-d47e0a38fd28" />
 <img width="915" alt="Screenshot 2025-04-01 at 11 30 03 AM" src="https://github.com/user-attachments/assets/3c6d4016-3cd6-4c2f-aeee-8a0fd97fe633" />
 <img width="914" alt="Screenshot 2025-04-01 at 11 30 24 AM" src="https://github.com/user-attachments/assets/cdeedf69-d970-4342-b06c-8cce20377e0c" />
